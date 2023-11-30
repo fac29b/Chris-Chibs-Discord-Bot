@@ -10,6 +10,7 @@ let ChatGptMsg = "";
 async function main(userMsg) {
   const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
+    max_tokens: 200,
     messages: [
       {
         role: "system",
