@@ -10,9 +10,6 @@ require("dotenv/config");
 // the index.js file
 const oAi = require("./openai");
 
-//run main function from openai.js
-oAi.main();
-
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
 const client = new Client({
   intents: [
@@ -35,6 +32,7 @@ client.login(process.env.BOT_TOKEN);
 
 // Define the ID of the channel where the bot should listen for messages
 const BOT_CHANNEL = "1179012028497674273";
+let userMsg = "";
 
 // Event listener for messages (async function)
 client.on(Events.MessageCreate, async (msg) => {
@@ -43,7 +41,7 @@ client.on(Events.MessageCreate, async (msg) => {
     if (msg.author.bot) return;
 
     // FOR CATCH ERROR TEST PURPOSES
-    errorThrower();
+    //errorThrower();
 
     // Ignore msgs not in the specified BOT_CHANNEL
     // if (msg.channel.id !== BOT_CHANNEL) return
@@ -52,6 +50,14 @@ client.on(Events.MessageCreate, async (msg) => {
       msg.channel.sendTyping();
       msg.reply("Pong!");
     }
+
+    userMsg = msg.content;
+
+    //console.log(userMsg, "user message");
+    const openAIresult = await oAi.main(userMsg);
+    //console.log("result:", openAIresult);
+    msg.channel.sendTyping();
+    msg.reply(openAIresult);
   } catch (error) {
     console.error("Error:", error.message);
   }

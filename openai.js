@@ -5,8 +5,9 @@ require("dotenv").config();
 //retrive openai api
 const OpenAI = require("openai").OpenAI;
 const openai = new OpenAI();
+let ChatGptMsg = "";
 
-async function main() {
+async function main(userMsg) {
   const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: [
@@ -16,12 +17,14 @@ async function main() {
       },
       {
         role: "user",
-        content: "can you help me today?",
+        content: userMsg,
       },
     ],
   });
-  console.log("return general completion async function:", completion);
-  console.log("completion.choices:", completion.choices);
+  //console.log("completion.choices:", completion.choices);
+  console.log("bot answer:", completion.choices[0].message.content);
+  ChatGptMsg = completion.choices[0].message.content;
+  return ChatGptMsg;
 }
 
 //simple function to return below for debugging
@@ -31,4 +34,4 @@ const debug = () => {
 
 // Adding the code below to allow importing
 // the functions in other files
-module.exports = { debug, main };
+module.exports = { debug, main, ChatGptMsg };
