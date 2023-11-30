@@ -32,18 +32,34 @@ const BOT_CHANNEL = "1179012028497674273";
 
 // Event listener for messages (async function)
 client.on(Events.MessageCreate, async (msg) => {
-    // Ignore messages from other bots
-    if (msg.author.bot) return;
+    try {
+      // Ignore messages from other bots
+      if (msg.author.bot) return;
 
-    // Ignore msgs not in the specified BOT_CHANNEL
-    // if (msg.channel.id !== BOT_CHANNEL) return
-    
-    if (msg.content === "ping") {
+      // FOR CATCH ERROR TEST PURPOSES 
+       errorThrower();
+        
+      // Ignore msgs not in the specified BOT_CHANNEL
+      // if (msg.channel.id !== BOT_CHANNEL) return
+      
+      if (msg.content === "ping") {
         msg.channel.sendTyping();
         msg.reply("Pong!");
       }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  });
+  
+  // Simulate triggering the event
+// const fakeMessage = { author: { bot: false }, content: "ping" };
+// client.emit(Events.MessageCreate, fakeMessage);
 
-});
+
+
+
+
+  
 
 
 
