@@ -45,10 +45,29 @@ client.on(Events.MessageCreate, async (msg) => {
 
     // Ignore msgs not in the specified BOT_CHANNEL
     // if (msg.channel.id !== BOT_CHANNEL) return
+    
+    // Check if the message starts with the command prefix
+    const commandPrefix = "!";
+    if (msg.content.startsWith(commandPrefix)) {
+      // Process commands
+      // slice of the command prefix at the front, trim the leading and trailing whitespace then splits the string into an array of substrings based on one or more space
+      const args = msg.content.slice(commandPrefix.length).trim().split(/ +/);
+      //remove first element (command) and convert it to lowercase
+      const command = args.shift().toLowerCase();
 
-    if (msg.content === "ping") {
-      msg.channel.sendTyping();
-      msg.reply("Pong!");
+      // Check for specific commands
+      if (command === "ping") {
+        msg.channel.sendTyping();
+        msg.reply("Pong!");
+        return;
+      } else if (command === "say") {
+        // return arg array to a string seperated by a space
+        const sayMessage = args.join(" ");
+        msg.channel.send(sayMessage);
+        return;
+      }
+      msg.reply("Sorry, I didn't recognize that command.");
+      return;
     }
 
     userMsg = msg.content;
