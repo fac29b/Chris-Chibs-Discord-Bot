@@ -50,16 +50,19 @@ client.on(Events.MessageCreate, async (msg) => {
       msg.channel.sendTyping();
       msg.reply("Pong!");
     }
-    msg.channel.sendTyping();
+
     userMsg = msg.content;
 
     //console.log(userMsg, "user message");
     const openAIresult = await oAi.main(userMsg);
     //console.log("result:", openAIresult);
+    msg.channel.sendTyping();
     msg.reply(openAIresult);
   } catch (error) {
     console.error("Error:", error.message);
   }
 });
 
-
+// Simulate triggering the event
+// const fakeMessage = { author: { bot: false }, content: "ping" };
+// client.emit(Events.MessageCreate, fakeMessage);
