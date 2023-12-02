@@ -32,7 +32,23 @@ client.login(process.env.BOT_TOKEN);
 
 // Define the ID of the channel where the bot should listen for messages
 const BOT_CHANNEL = "1179012028497674273";
-let userMsg = "";
+
+//variables for chat history storage
+let openAIMsg = "";
+let msgHistory = [];
+
+//store User messages in chat history
+const addUserMsg = (role, content) => {
+  //make object with role and content
+  let currentMsg = {
+    role: role,
+    content: content,
+  };
+  //push object to storage of chat history
+  msgHistory.push(currentMsg);
+};
+
+addUserMsg("system", "You are a helpful assistant");
 
 // Event listener for messages (async function)
 client.on(Events.MessageCreate, async (msg) => {
@@ -55,6 +71,7 @@ client.on(Events.MessageCreate, async (msg) => {
       //remove first element (command) and convert it to lowercase
       const command = args.shift().toLowerCase();
 
+<<<<<<< HEAD
       // Check for specific commands
       if (command === "ping") {
         msg.channel.sendTyping();
@@ -68,20 +85,32 @@ client.on(Events.MessageCreate, async (msg) => {
       }
       msg.reply("Sorry, I didn't recognize that command.");
       return;
+=======
+    //test if chatbot working
+    if (msg.content === "ping") {
+      msg.channel.sendTyping();
+      msg.reply("Pong!");
+>>>>>>> main
     }
 
-    userMsg = msg.content;
+    //run function to add typed content from user
+    addUserMsg("user", msg.content);
 
-    //console.log(userMsg, "user message");
-    const openAIresult = await oAi.main(userMsg);
-    //console.log("result:", openAIresult);
+    //send msgHistory to "main" function in openai.js
+    const openAIresult = await oAi.main(msgHistory);
+
+    //discord showing typing is happening
     msg.channel.sendTyping();
+
+    //add reply from openAI
     msg.reply(openAIresult);
+
+    //add openAIreult to message history
+    addUserMsg("assistant", openAIresult);
+    // console.log("index.js msgHistory adding openAIresult:", msgHistory);
   } catch (error) {
     console.error("Error:", error.message);
   }
 });
 
-// Simulate triggering the event
-// const fakeMessage = { author: { bot: false }, content: "ping" };
-// client.emit(Events.MessageCreate, fakeMessage);
+
