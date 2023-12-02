@@ -10,6 +10,10 @@ require("dotenv/config");
 // the index.js file
 const oAi = require("./openai");
 
+// Importing the import.js module from command-processing
+const processCommand = require('./command-processing');
+
+
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
 const client = new Client({
   intents: [
@@ -56,6 +60,14 @@ client.on(Events.MessageCreate, async (msg) => {
     // Ignore messages from other bots
     if (msg.author.bot) return;
 
+    //  processCommand.processCommand(msg);
+
+         // Check if a command was processed
+    if (processCommand.processCommand(msg)) {
+      // If a command was processed, stop further execution
+      return;
+    }
+
     // FOR CATCH ERROR TEST PURPOSES
     //errorThrower();
 
@@ -67,6 +79,8 @@ client.on(Events.MessageCreate, async (msg) => {
       msg.channel.sendTyping();
       msg.reply("Pong!");
     }
+
+    
 
     //run function to add typed content from user
     addUserMsg("user", msg.content);
@@ -87,5 +101,3 @@ client.on(Events.MessageCreate, async (msg) => {
     console.error("Error:", error.message);
   }
 });
-
-
