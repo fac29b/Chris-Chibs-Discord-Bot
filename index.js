@@ -1,5 +1,5 @@
 // Import the modules needed from discord.js
-const { Client, Events, GatewayIntentBits } = require("discord.js");
+const { Client, Events, GatewayIntentBits, SlashCommandBuilder } = require("discord.js");
 
 // Load BOT_TOKEN variable from the .env file
 require("dotenv/config");
@@ -9,9 +9,10 @@ require("dotenv/config");
 // is in the same directory as
 // the index.js file
 const oAi = require("./openai");
+const commands = require("./slash-commands")
 
 // Importing the import.js module from command-processing
-const processCommand = require('./command-processing');
+// const processCommand = require('./command-processing');
 
 
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
@@ -29,10 +30,26 @@ const client = new Client({
 // Event listener for when the client is ready
 client.once(Events.ClientReady, (clientUser) => {
   console.log(`Logged in as ${clientUser.user.tag}`);
+  const ping = new SlashCommandBuilder()
+  .setName('ping')
+  .setDescription('Replies with Pong!');
+//     async (interaction) => {
+//     await interaction.reply('Pong!');
+// }
+
+client.application.commands.create(ping);
 });
 
 // Log in to Discord using the bot token from the .env file
 client.login(process.env.BOT_TOKEN);
+
+client.on(Events.InteractionCreate, async interaction => {
+  if (!interaction.isChatInputCommand()) return;
+
+  if (interaction.commandName === 'ping') {
+    await interaction.reply('Bong!');
+  }
+});
 
 // Define the ID of the channel where the bot should listen for messages
 const BOT_CHANNEL = "1179012028497674273";
@@ -62,11 +79,6 @@ client.on(Events.MessageCreate, async (msg) => {
 
     //  processCommand.processCommand(msg);
 
-         // Check if a command was processed
-    if (processCommand.processCommand(msg)) {
-      // If a command was processed, stop further execution
-      return;
-    }
 
     // FOR CATCH ERROR TEST PURPOSES
     //errorThrower();
