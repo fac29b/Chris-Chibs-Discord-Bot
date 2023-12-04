@@ -4,6 +4,7 @@ const {
   Events,
   GatewayIntentBits,
   SlashCommandBuilder,
+  Guild,
 } = require("discord.js");
 
 // Load .env file
@@ -12,6 +13,9 @@ require("dotenv/config");
 // Importing the import.js module
 const oAi = require("./openai");
 const commands = require("./slash-commands");
+
+// Define the ID of the channel where the bot should listen for messages
+const BOT_CHANNEL = "1179012028497674273";
 
 // Importing the import.js module from command-processing
 // const processCommand = require('./command-processing');
@@ -25,8 +29,13 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     //  information about the text content of messages.
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMembers,
   ],
 });
+
+// Log in to Discord using the bot token from the .env file
+client.login(process.env.BOT_TOKEN);
 
 // Event listener for when the client is ready
 client.once(Events.ClientReady, (clientUser) => {
@@ -45,27 +54,22 @@ client.once(Events.ClientReady, (clientUser) => {
   client.application.commands.create(pingping);
 });
 
-// Log in to Discord using the bot token from the .env file
-client.login(process.env.BOT_TOKEN);
-
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === "ping") {
     await interaction.reply("Bong!");
   }
-
+  //basic DM to user who prompted interaction
   if (interaction.commandName === "pingping") {
     await interaction.reply(
       `This command was run by ${interaction.user.username}`
     );
-    console.log(interaction.user.id);
+
     interaction.user.send("right back atcha");
+    // console.log(interaction.user.id);
   }
 });
-
-// Define the ID of the channel where the bot should listen for messages
-const BOT_CHANNEL = "1179012028497674273";
 
 //variables for chat history storage
 let openAIMsg = "";
