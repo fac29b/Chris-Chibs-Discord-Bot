@@ -1,4 +1,3 @@
-//undoing comment
 // Import the modules needed from discord.js
 const fs = require("node:fs");
 const path = require("node:path");
