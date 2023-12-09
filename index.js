@@ -70,6 +70,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   try {
     await command.execute(interaction);
+
   } catch (error) {
     console.error(error);
     if (interaction.replied || interaction.deferred) {
