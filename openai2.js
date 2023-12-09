@@ -5,7 +5,7 @@ require("dotenv").config();
 //retrieve openai api
 const OpenAI = require("openai").OpenAI;
 const openai = new OpenAI();
-let ChatGptMsg = "";
+let ChatGptMsg2 = "";
 
 async function main2(msgHistory) {
   console.log(msgHistory);
@@ -13,7 +13,7 @@ async function main2(msgHistory) {
       
       const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      max_tokens: 200,
+      max_tokens: 150,
       messages: 
       [
         {
@@ -27,8 +27,8 @@ async function main2(msgHistory) {
       ],
     });
     console.log("bot answer:", completion.choices[0].message.content);
-    ChatGptMsg = completion.choices[0].message.content;
-    return ChatGptMsg;
+    ChatGptMsg2 = completion.choices[0].message.content;
+    return ChatGptMsg2;
 }catch (error) {
     console.error("Error in openai.js:", error.message);
     return "Oops! Something went wrong while processing your request. Please try again later.";
@@ -41,4 +41,4 @@ const debug = () => {
 };
 
 // export variables to other files
-module.exports = { debug, main2, ChatGptMsg };
+module.exports = { debug, main2, ChatGptMsg2 };

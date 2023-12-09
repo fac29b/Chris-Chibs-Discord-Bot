@@ -30,8 +30,9 @@ module.exports = {
 	async execute(interaction) {
         const language = interaction.options.getString('language');
         const level = interaction.options.getString('level');
-        //send msgHistory to "main" function in openai.js
-        const openAIresult = await oAi2.main2("new message say goodbye");
-		await interaction.reply(openAIresult);
+        console.log(`${language} and ${level}`);
+        await interaction.deferReply();
+        const openAIresult2 = await oAi2.main2(`Show me an example of ${language} code interview question for a  ${level} `);
+		await interaction.editReply(openAIresult2);
 	},
 };
