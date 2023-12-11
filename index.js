@@ -89,49 +89,53 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 //variables for chat history storage
 let openAIMsg = "";
-let msgHistory = [];
+// let msgHistory = [];
 
-//store User messages in chat history
-const addUserMsg = (role, content) => {
-  //make object with role and content
-  let currentMsg = {
-    role: role,
-    content: content,
-  };
-  //push object to storage of chat history
-  msgHistory.push(currentMsg);
-};
+// //store User messages in chat history
+// const addUserMsg = (role, content) => {
+//   //make object with role and content
+//   let currentMsg = {
+//     role: role,
+//     content: content,
+//   };
+//   //push object to storage of chat history
+//   msgHistory.push(currentMsg);
+//   console.log("message history = ", )
+// };
 
-addUserMsg("system", "You are a helpful assistant");
+// addUserMsg("system", "You are a helpful assistant");
+
+
+
 
 // Event listener for messages (async function)
-client.on(Events.MessageCreate, async (msg) => {
-  try {
-    // Ignore messages from other bots
-    if (msg.author.bot) return;
+// client.on(Events.MessageCreate, async (msg) => {
+//   try {
+//     // Ignore messages from other bots
+//     if (msg.author.bot) return;
 
-    //test if chatbot working
-    if (msg.content === "ping") {
-      msg.channel.sendTyping();
-      msg.reply("Pong!");
-    }
+//     //test if chatbot working
+//     if (msg.content === "ping") {
+//       msg.channel.sendTyping();
+//       msg.reply("Pong!");
+//     }
 
-    //run function to add typed content from user
-    addUserMsg("user", msg.content);
+//     //run function to add typed content from user
+//     addUserMsg("user", msg.content);
 
-    //send msgHistory to "main" function in openai.js
-    const openAIresult = await oAi.main(msgHistory);
+//     //send msgHistory to "main" function in openai.js
+//     const openAIresult = await oAi.main(msgHistory);
 
-    //discord showing typing is happening
-    msg.channel.sendTyping();
+//     //discord showing typing is happening
+//     msg.channel.sendTyping();
 
-    //add reply from openAI
-    msg.reply(openAIresult);
+//     //add reply from openAI
+//     msg.reply(openAIresult);
 
-    //add openAIreult to message history
-    addUserMsg("assistant", openAIresult);
-    // console.log("index.js msgHistory adding openAIresult:", msgHistory);
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
-});
+//     //add openAIreult to message history
+//     addUserMsg("assistant", openAIresult);
+//     // console.log("index.js msgHistory adding openAIresult:", msgHistory);
+//   } catch (error) {
+//     console.error("Error:", error.message);
+//   }
+// });
