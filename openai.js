@@ -14,18 +14,17 @@ async function main(msgHistory) {
       const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       max_tokens: 200,
-      messages: msgHistory,
-      //msgHistory replaces content below
-      // [
-      //   {
-      //     role: "system",
-      //     content: "You are a helpful assistant.",
-      //   },
-      //   {
-      //     role: "user",
-      //     content: userMsg, (deleted variable)
-      //   },
-      // ],
+      messages:
+      [
+        {
+          role: "system",
+          content: "You are a helpful assistant.",
+        },
+        {
+          role: "user",
+          content: ('please describe the following code as thought you were describing to a beginner: ' + msgHistory),
+        },
+      ],
     });
     console.log("bot answer:", completion.choices[0].message.content);
     ChatGptMsg = completion.choices[0].message.content;

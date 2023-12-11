@@ -7,24 +7,17 @@ const OpenAI = require("openai").OpenAI;
 const openai = new OpenAI();
 let ChatGptMsg2 = "";
 
+
+
 async function main2(msgHistory) {
-  console.log(msgHistory);
+  // console.log(msgHistory);
   try { 
       
       const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       max_tokens: 150,
-      messages: 
-      [
-        {
-          role: "system",
-          content: "You are a helpful assistant.",
-        },
-        {
-          role: "user",
-          content: msgHistory,
-        },
-      ],
+      messages: msgHistory,
+        
     });
     console.log("bot answer:", completion.choices[0].message.content);
     ChatGptMsg2 = completion.choices[0].message.content;
