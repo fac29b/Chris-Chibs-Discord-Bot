@@ -56,6 +56,7 @@ module.exports = {
     const userPrompt = `Generate one code-reading challenge in ${language} code for a ${level}. Don't show the answer or explain the code. Return the code only`;
     addUserMsg("user", userPrompt);
 
+    //call async openai function with message hisotry 
     const openAIresult2 = await oAi2.main2(msgHistory);
     await interaction.editReply(openAIresult2);
 
@@ -80,4 +81,6 @@ module.exports = {
     // }
     // console.log(oAi2.challenges);
   },
+  msgHistory,
 };
+

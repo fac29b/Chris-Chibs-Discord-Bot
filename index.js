@@ -14,6 +14,7 @@ require("dotenv/config");
 
 // Importing the import.js module
 const oAi = require("./openai");
+const { msgHistory } = require("./commands/utility/intcoderead");
 
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
 const client = new Client({
@@ -109,33 +110,53 @@ let openAIMsg = "";
 
 
 // Event listener for messages (async function)
-// client.on(Events.MessageCreate, async (msg) => {
-//   try {
-//     // Ignore messages from other bots
-//     if (msg.author.bot) return;
 
-//     //test if chatbot working
-//     if (msg.content === "ping") {
-//       msg.channel.sendTyping();
-//       msg.reply("Pong!");
-//     }
+client.on(Events.MessageCreate, async (msg) => {
+  try {
+    // Ignore messages from other bots
+    if (msg.author.bot) return;
+    // console.log(msg, "mentions users", msg.mentions.repliedUser);
+    console.log(msg, "message ID is = ", msg.reference.messageId);
+    // Client.channels.fetch(interaction.channelId).messages.fetch(interactionreference.messageId);
+    if (msg.mentions.repliedUser.username === 'FirstBot') {
 
-//     //run function to add typed content from user
-//     addUserMsg("user", msg.content);
+      if (msg.content.toLowerCase() !== 'answer') {
+        msg.reply('Type: `/intcoderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
+    } else {
+      const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
+      const openAiAnswer = await oAi.main(messageContent.content);
+      msg.reply(openAiAnswer);
+    }
+  }
 
-//     //send msgHistory to "main" function in openai.js
-//     const openAIresult = await oAi.main(msgHistory);
+   
 
-//     //discord showing typing is happening
-//     msg.channel.sendTyping();
 
-//     //add reply from openAI
-//     msg.reply(openAIresult);
 
-//     //add openAIreult to message history
-//     addUserMsg("assistant", openAIresult);
-//     // console.log("index.js msgHistory adding openAIresult:", msgHistory);
-//   } catch (error) {
-//     console.error("Error:", error.message);
-//   }
-// });
+    // //test if chatbot working
+    // if (msg(client.user.id)) {
+    //   msg.channel.sendTyping();
+    //   console.log('looking for an aswer', msgHistory);
+    //   msg.reply(client.user.id);
+    // }
+
+    //run function to add typed content from user
+    // addUserMsg("user", msg.content);
+
+    //send msgHistory to "main" function in openai.js
+    // const openAIresult = await oAi.main(msgHistory);
+
+    //discord showing typing is happening
+    // msg.channel.sendTyping();
+
+    //add reply from openAI
+    // msg.reply(openAIresult);
+
+    //add openAIreult to message history
+    // addUserMsg("assistant", openAIresult);
+    // console.log("index.js msgHistory adding openAIresult:", msgHistory);
+    
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+});
