@@ -6,6 +6,7 @@ require("dotenv").config();
 const OpenAI = require("openai").OpenAI;
 const openai = new OpenAI();
 let ChatGptMsg2 = "";
+let challenges = [];
 
 async function main2(msgHistory) {
   console.log(msgHistory);
@@ -41,4 +42,4 @@ const debug = () => {
 };
 
 // export variables to other files
-module.exports = { debug, main2, ChatGptMsg2 };
+module.exports = { debug, main2, ChatGptMsg2, challenges};
