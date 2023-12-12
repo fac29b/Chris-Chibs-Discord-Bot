@@ -8,12 +8,12 @@ const openai = new OpenAI();
 let ChatGptMsg = "";
 
 async function main(msgHistory) {
-  console.log(msgHistory);
+  // console.log(msgHistory);
   try { 
       
       const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",//"gpt-3.5-turbo" "gpt-4"
-      max_tokens: 200,
+      model: "gpt-4",//"gpt-3.5-turbo" "gpt-4"
+      max_tokens: 500,
       messages:
       [
         {
