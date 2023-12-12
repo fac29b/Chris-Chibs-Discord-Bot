@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("discord.js");
 // Importing the import.js module
 const oAi2 = require("../../openai2");
 
-// let msgHistory = [];
+let msgHistory = [];
 
 //store User messages in chat history
 const addUserMsg = (role, content) => {
@@ -17,23 +17,24 @@ const addUserMsg = (role, content) => {
   
 };
 
-
-// addUserMsg("system", "You are a helpful assistant");
+addUserMsg("system", "You are a helpful assistant");
 
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("coderead")
-    .setDescription("Produces code to be read ")
+    .setName("jscoderead")
+    .setDescription("Produces javascript code to be read ")
     .addStringOption((option) =>
       option
-        .setName("language")
-        .setDescription("Select language option for code interview")
+        .setName("category")
+        .setDescription("Select a subject option for code interview")
         .setRequired(true)
         .addChoices(
-          { name: "Javascript", value: "Javascript" },
-          { name: "Python", value: "Python" },
-          { name: "Typescript", value: "Typescript" }
+          { name: "object methods", value: "object methods" },
+          { name: "destructuring", value: "destructuring" },
+          { name: "rest parameters", value: "rest parameters" },
+          { name: "asynchronous javascript", value: "asynchronous javascript" },
+          { name: "array methods", value: "array methods" }
         )
     )
     .addStringOption((option) =>
@@ -42,22 +43,19 @@ module.exports = {
         .setDescription("select a level")
         .setRequired(true)
         .addChoices(
-          { name: "absolute novice", value: "absolute novice" },
-          { name: "beginner with some experience", value: "beginner with some experience" },
-          { name: "confident beginner", value: "confident beginner" },
-          { name: "early intermediate level", value: "early intermediate level" },
-          { name: "intermediate level", value: "intermediate level" },
-          { name: "confident intermediate level", value: "confident intermediate level" }
+          { name: "absolute beginner", value: "absolute beginner" },
+          { name: "intermediate beginner", value: "intermediate beginner" },
+          { name: "confident beginner", value: "confident beginner" }
         )
     ),
 
   async execute(interaction) {
-    const language = interaction.options.getString("language");
+    const category = interaction.options.getString("category");
     const level = interaction.options.getString("level");
 
     await interaction.deferReply();
 
-    const userPrompt = `Generate one code-reading challenge in ${language} code for a ${level}. Don't show the answer or explain the code. Return the code only`;
+    const userPrompt = `Generate one javascript code-reading challenge that focuses on ${category} for an ${level}. Don't show the answer or explain the code. Return the code only`;
     addUserMsg("user", userPrompt);
 
     //call async openai function with message hisotry 
@@ -66,10 +64,8 @@ module.exports = {
 
     addUserMsg("assistant", openAIresult2);
 
-
     console.log("message history = ", msgHistory)
   },
-  //added export of msgHistory variable
-  //msgHistory,
+  msgHistory,
 };
 

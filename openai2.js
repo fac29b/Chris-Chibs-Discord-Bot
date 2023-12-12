@@ -19,7 +19,7 @@ async function main2(msgHistory) {
       messages: msgHistory,
         
     });
-    console.log("bot answer:", completion.choices[0].message.content);
+    // console.log("bot answer:", completion.choices[0].message.content); ##
     ChatGptMsg2 = completion.choices[0].message.content;
     return ChatGptMsg2;
 }catch (error) {
