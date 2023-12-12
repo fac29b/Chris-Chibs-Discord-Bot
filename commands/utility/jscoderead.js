@@ -22,17 +22,19 @@ addUserMsg("system", "You are a helpful assistant");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("coderead")
-    .setDescription("Produces code to be read ")
+    .setName("jscoderead")
+    .setDescription("Produces javascript code to be read ")
     .addStringOption((option) =>
       option
-        .setName("language")
-        .setDescription("Select language option for code interview")
+        .setName("category")
+        .setDescription("Select a subject option for code interview")
         .setRequired(true)
         .addChoices(
-          { name: "Javascript", value: "Javascript" },
-          { name: "Python", value: "Python" },
-          { name: "Typescript", value: "Typescript" }
+          { name: "object methods", value: "object methods" },
+          { name: "destructuring", value: "destructuring" },
+          { name: "rest parameters", value: "rest parameters" },
+          { name: "asynchronous javascript", value: "asynchronous javascript" },
+          { name: "array methods", value: "array methods" }
         )
     )
     .addStringOption((option) =>
@@ -48,12 +50,12 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    const language = interaction.options.getString("language");
+    const category = interaction.options.getString("category");
     const level = interaction.options.getString("level");
 
     await interaction.deferReply();
 
-    const userPrompt = `Generate one code-reading challenge in ${language} code for a ${level}. Don't show the answer or explain the code. Return the code only`;
+    const userPrompt = `Generate one javascript code-reading challenge that focuses on ${category} for an ${level}. Don't show the answer or explain the code. Return the code only`;
     addUserMsg("user", userPrompt);
 
     //call async openai function with message hisotry 

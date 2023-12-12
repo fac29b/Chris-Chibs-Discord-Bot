@@ -15,6 +15,7 @@ require("dotenv/config");
 // Importing the import.js module
 const oAi = require("./openai");
 const { msgHistory } = require("./commands/utility/intcoderead");
+const { channel } = require("node:diagnostics_channel");
 
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
 const client = new Client({
