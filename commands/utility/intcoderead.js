@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("discord.js");
 // Importing the import.js module
 const oAi2 = require("../../openai2");
 
-let msgHistory = [];
+// let msgHistory = [];
 
 //store User messages in chat history
 const addUserMsg = (role, content) => {
@@ -17,7 +17,8 @@ const addUserMsg = (role, content) => {
   
 };
 
-addUserMsg("system", "You are a helpful assistant");
+
+// addUserMsg("system", "You are a helpful assistant");
 
 
 module.exports = {
@@ -41,9 +42,12 @@ module.exports = {
         .setDescription("select a level")
         .setRequired(true)
         .addChoices(
-          { name: "absolute beginner", value: "absolute beginner" },
-          { name: "intermediate beginner", value: "intermediate beginner" },
-          { name: "confident beginner", value: "confident beginner" }
+          { name: "absolute novice", value: "absolute novice" },
+          { name: "beginner with some experience", value: "beginner with some experience" },
+          { name: "confident beginner", value: "confident beginner" },
+          { name: "early intermediate level", value: "early intermediate level" },
+          { name: "intermediate level", value: "intermediate level" },
+          { name: "confident intermediate level", value: "confident intermediate level" }
         )
     ),
 
@@ -62,8 +66,10 @@ module.exports = {
 
     addUserMsg("assistant", openAIresult2);
 
+
     console.log("message history = ", msgHistory)
   },
-  msgHistory,
+  //added export of msgHistory variable
+  //msgHistory,
 };
 
