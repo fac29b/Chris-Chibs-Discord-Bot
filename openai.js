@@ -12,7 +12,7 @@ async function main(msgHistory) {
   try { 
       
       const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo",//"gpt-3.5-turbo" "gpt-4"
       max_tokens: 200,
       messages:
       [
@@ -26,7 +26,7 @@ async function main(msgHistory) {
         },
       ],
     });
-    console.log("bot answer:", completion.choices[0].message.content);
+    // console.log("bot answer:", completion.choices[0].message.content);
     ChatGptMsg = completion.choices[0].message.content;
     return ChatGptMsg;
 }catch (error) {

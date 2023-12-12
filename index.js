@@ -115,17 +115,17 @@ client.on(Events.MessageCreate, async (msg) => {
   try {
     // Ignore messages from other bots
     if (msg.author.bot) return;
-    // console.log(msg, "mentions users", msg.mentions.repliedUser);
-    console.log(msg, "message ID is = ", msg.reference.messageId);
+    // console.log(msg, "mentions users", msg.mentions.users);
+    // console.log(msg, "message ID is = ", msg.reference.messageId);
     // Client.channels.fetch(interaction.channelId).messages.fetch(interactionreference.messageId);
-    if (msg.mentions.repliedUser.username === 'FirstBot') {
+    if (msg.mentions.repliedUser.id === process.env.CLIENT_ID) {
 
       if (msg.content.toLowerCase() !== 'answer') {
         msg.reply('Type: `/intcoderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
     } else {
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
       const openAiAnswer = await oAi.main(messageContent.content);
-      msg.reply(openAiAnswer);
+      msg.reply("||"+openAiAnswer+"||");
     }
   }
 
