@@ -71,7 +71,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   try {
     await command.execute(interaction);
-
   } catch (error) {
     console.error(error);
     if (interaction.replied || interaction.deferred) {
@@ -98,37 +97,57 @@ client.on(Events.MessageCreate, async (msg) => {
 
     //if chatbot is mentioned in the reply
     if (msg.mentions.repliedUser.id === process.env.CLIENT_ID) {
-
-      if (msg.content.toLowerCase().includes('!answer') && msg.content.length > 10) {
-        msg.reply('Checking your input...');
-
-
+      if (
+        msg.content.toLowerCase().includes("!answer") &&
+        msg.content.length > 10
+      ) {
+        msg.reply("Checking your input...");
+        msg.reply(
+          "https://media1.tenor.com/m/Jb3g_BKTF-gAAAAC/sabrina-the-teenage-witch-cat.gif"
+        );
 
         //fetch message and channel id
-      const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
-      //call main function in openai.js
-      const answerToSend = 'Assess and feedback whether the following text (beginning with the word `Answer`) describes the following piece of javascript code (beginning with the word `Code`) well and clearly so it is easy to understand: ' + 'Answer' + msg.content + 'Code' + messageContent.content;
-      const openAiAnswer = await oAi.main(answerToSend);
-      // add "spoiler" formatting to answer
-      msg.reply(openAiAnswer);
+        const messageContent = await msg.guild.channels.cache
+          .get(msg.reference.channelId)
+          .messages.fetch(msg.reference.messageId);
+        //call main function in openai.js
+        const answerToSend =
+          "Assess and feedback whether the following text (beginning with the word `Answer`) describes the following piece of javascript code (beginning with the word `Code`) well and clearly so it is easy to understand: " +
+          "Answer" +
+          msg.content +
+          "Code" +
+          messageContent.content;
+        const openAiAnswer = await oAi.main(answerToSend);
+        // add "spoiler" formatting to answer
+        msg.reply(openAiAnswer);
+      } else if (
+        msg.content.toLowerCase().includes("!answer") &&
+        msg.content.length < 10
+      ) {
+        msg.reply("working on it...");
+        msg.reply(
+          "https://media1.tenor.com/m/b_4MO5WiulkAAAAd/ill-waiting.gif"
+        );
 
-        
-    } else if (msg.content.toLowerCase().includes('!answer') && msg.content.length < 10) {
-
-      msg.reply("working on it...");
-      //fetch message and channel id
-      const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
-      //call main function in openai.js
-      const messageToSend = 'please describe the following code as thought you were describing to a beginner: ' + messageContent.content;
-      const openAiAnswer = await oAi.main(messageToSend);
-      // add "spoiler" formatting to answer
-      msg.reply("||"+openAiAnswer+"||");
-
-    } else if (!msg.content.toLowerCase().includes('!answer')) {
-      msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `!answer` to the code problem to get an answer.');
+        //fetch message and channel id
+        const messageContent = await msg.guild.channels.cache
+          .get(msg.reference.channelId)
+          .messages.fetch(msg.reference.messageId);
+        //call main function in openai.js
+        const messageToSend =
+          "please describe the following code as thought you were describing to a beginner: " +
+          messageContent.content;
+        const openAiAnswer = await oAi.main(messageToSend);
+        // add "spoiler" formatting to answer
+        msg.reply("||" + openAiAnswer + "||");
+      } else if (!msg.content.toLowerCase().includes("!answer")) {
+        msg.reply(
+          "Type: `/jscoderead` to run this bot.\n" +
+          "Reply to the code problem with `!answer` followed by your own answer to get feedback.\n" +
+          "Or reply to the code problem just with `!answer` to get an answer."
+        );
+      }
     }
-  }
-    
   } catch (error) {
     console.error("Error:", error.message);
   }
