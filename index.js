@@ -114,6 +114,11 @@ client.on(Events.MessageCreate, async (msg) => {
 
         
     } else if (msg.content.toLowerCase().includes('!answer') && msg.content.length < 10) {
+      
+      if (msg.content.toLowerCase() !== 'answer') {
+        
+        msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
+    } else {
       msg.reply("working on it...");
       //fetch message and channel id
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
