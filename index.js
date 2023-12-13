@@ -88,8 +88,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-
-
 // Event listener for messages (async function)
 
 client.on(Events.MessageCreate, async (msg) => {
@@ -101,16 +99,31 @@ client.on(Events.MessageCreate, async (msg) => {
     //if chatbot is mentioned in the reply
     if (msg.mentions.repliedUser.id === process.env.CLIENT_ID) {
 
-      if (msg.content.toLowerCase() !== 'answer') {
-        msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
-    } else {
+      if (msg.content.toLowerCase().includes('!answer') && msg.content.length > 10) {
+        msg.reply('Checking your input...');
+
+
+
+        //fetch message and channel id
+      const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
+      //call main function in openai.js
+      const answerToSend = 'Assess and feedback whether the following text (beginning with AAA) describes the following piece of javascript code (beginning with BBB) well and clearly so it is easy to understand: ' + 'AAA' + msg.content + 'BBB' + messageContent.content;
+      const openAiAnswer = await oAi.main(answerToSend);
+      // add "spoiler" formatting to answer
+      msg.reply(openAiAnswer);
+
+        
+    } else if (msg.content.toLowerCase().includes('!answer') && msg.content.length < 10) {
       msg.reply("working on it...");
       //fetch message and channel id
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
       //call main function in openai.js
-      const openAiAnswer = await oAi.main(messageContent.content);
+      const messageToSend = 'please describe the following code as thought you were describing to a beginner: ' + messageContent.content;
+      const openAiAnswer = await oAi.main(messageToSend);
       // add "spoiler" formatting to answer
       msg.reply("||"+openAiAnswer+"||");
+    } else {
+      msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `!answer` to the code problem to get an answer.');
     }
   }
     
