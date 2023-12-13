@@ -102,6 +102,7 @@ client.on(Events.MessageCreate, async (msg) => {
     if (msg.mentions.repliedUser.id === process.env.CLIENT_ID) {
 
       if (msg.content.toLowerCase() !== 'answer') {
+        
         msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
     } else {
       msg.reply("working on it...");
