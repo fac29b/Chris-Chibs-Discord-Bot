@@ -107,18 +107,14 @@ client.on(Events.MessageCreate, async (msg) => {
         //fetch message and channel id
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
       //call main function in openai.js
-      const answerToSend = 'Assess and feedback whether the following text (beginning with AAA) describes the following piece of javascript code (beginning with BBB) well and clearly so it is easy to understand: ' + 'AAA' + msg.content + 'BBB' + messageContent.content;
+      const answerToSend = 'Assess and feedback whether the following text (beginning with the word `Answer`) describes the following piece of javascript code (beginning with the word `Code`) well and clearly so it is easy to understand: ' + 'Answer' + msg.content + 'Code' + messageContent.content;
       const openAiAnswer = await oAi.main(answerToSend);
       // add "spoiler" formatting to answer
       msg.reply(openAiAnswer);
 
         
     } else if (msg.content.toLowerCase().includes('!answer') && msg.content.length < 10) {
-      
-      if (msg.content.toLowerCase() !== 'answer') {
-        
-        msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
-    } else {
+
       msg.reply("working on it...");
       //fetch message and channel id
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
@@ -127,9 +123,13 @@ client.on(Events.MessageCreate, async (msg) => {
       const openAiAnswer = await oAi.main(messageToSend);
       // add "spoiler" formatting to answer
       msg.reply("||"+openAiAnswer+"||");
-    } 
-  } 
-  } 
-}catch (error) {
-  console.error("Error:", error.message);
-}});
+
+    } else if (!msg.content.toLowerCase().includes('!answer')) {
+      msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `!answer` to the code problem to get an answer.');
+    }
+  }
+    
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+});
