@@ -88,25 +88,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-//variables for chat history storage
-let openAIMsg = "";
-// let msgHistory = [];
-
-// //store User messages in chat history
-// const addUserMsg = (role, content) => {
-//   //make object with role and content
-//   let currentMsg = {
-//     role: role,
-//     content: content,
-//   };
-//   //push object to storage of chat history
-//   msgHistory.push(currentMsg);
-//   console.log("message history = ", )
-// };
-
-// addUserMsg("system", "You are a helpful assistant");
-
-
 
 
 // Event listener for messages (async function)
@@ -116,47 +97,22 @@ client.on(Events.MessageCreate, async (msg) => {
     // Ignore messages from other bots
     if (msg.author.bot) return;
     // console.log(msg, "mentions users", msg.mentions.users);
-    // console.log(msg, "message ID is = ", msg.reference.messageId);
-    // Client.channels.fetch(interaction.channelId).messages.fetch(interactionreference.messageId);
+
+    //if chatbot is mentioned in the reply
     if (msg.mentions.repliedUser.id === process.env.CLIENT_ID) {
 
       if (msg.content.toLowerCase() !== 'answer') {
         msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
     } else {
       msg.reply("working on it...");
+      //fetch message and channel id
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
+      //call main function in openai.js
       const openAiAnswer = await oAi.main(messageContent.content);
       // add "spoiler" formatting to answer
       msg.reply("||"+openAiAnswer+"||");
     }
   }
-
-   
-
-
-
-    // //test if chatbot working
-    // if (msg(client.user.id)) {
-    //   msg.channel.sendTyping();
-    //   console.log('looking for an aswer', msgHistory);
-    //   msg.reply(client.user.id);
-    // }
-
-    //run function to add typed content from user
-    // addUserMsg("user", msg.content);
-
-    //send msgHistory to "main" function in openai.js
-    // const openAIresult = await oAi.main(msgHistory);
-
-    //discord showing typing is happening
-    // msg.channel.sendTyping();
-
-    //add reply from openAI
-    // msg.reply(openAIresult);
-
-    //add openAIreult to message history
-    // addUserMsg("assistant", openAIresult);
-    // console.log("index.js msgHistory adding openAIresult:", msgHistory);
     
   } catch (error) {
     console.error("Error:", error.message);
