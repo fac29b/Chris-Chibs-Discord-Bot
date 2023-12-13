@@ -127,12 +127,9 @@ client.on(Events.MessageCreate, async (msg) => {
       const openAiAnswer = await oAi.main(messageToSend);
       // add "spoiler" formatting to answer
       msg.reply("||"+openAiAnswer+"||");
-    } else {
-      msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `!answer` to the code problem to get an answer.');
-    }
-  }
-    
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
-});
+    } 
+  } 
+  } 
+}catch (error) {
+  console.error("Error:", error.message);
+}});
