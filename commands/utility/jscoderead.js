@@ -77,7 +77,7 @@ module.exports = {
     const category = interaction.options.getString("category");
     const level = interaction.options.getString("level");
     await interaction.deferReply();
-    interaction.editReply('https://media1.tenor.com/m/1vXRFJxqIVgAAAAC/waiting-waiting-patiently.gif');
+    interaction.editReply('https://media1.tenor.com/m/ilLQkRwNYu0AAAAC/spongebob-waiting.gif');
     const userPrompt = `Generate one code-reading challenge in javascript which focuses on ${category} for a ${level}. Don't show the answer or explain the code. Return the code only`;
     addUserMsg("user", userPrompt);
 
