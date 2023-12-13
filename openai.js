@@ -8,7 +8,6 @@ const openai = new OpenAI();
 let ChatGptMsg = "";
 
 async function main(msgHistory) {
-  // console.log(msgHistory);
   try { 
       
       const completion = await openai.chat.completions.create({

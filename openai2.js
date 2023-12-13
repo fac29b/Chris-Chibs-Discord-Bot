@@ -10,7 +10,6 @@ let ChatGptMsg2 = "";
 
 
 async function main2(msgHistory) {
-  // console.log(msgHistory);
   try { 
       
       const completion = await openai.chat.completions.create({
