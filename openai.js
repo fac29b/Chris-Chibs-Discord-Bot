@@ -22,7 +22,7 @@ async function main(msgHistory) {
         },
         {
           role: "user",
-          content: ('please describe the following code as thought you were describing to a beginner: ' + msgHistory),
+          content: 'please describe the following code as thought you were describing to a beginner: ' + msgHistory,
         },
       ],
     });

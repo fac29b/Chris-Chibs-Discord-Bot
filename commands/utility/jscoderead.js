@@ -43,9 +43,12 @@ module.exports = {
         .setDescription("select a level")
         .setRequired(true)
         .addChoices(
-          { name: "absolute beginner", value: "absolute beginner" },
-          { name: "intermediate beginner", value: "intermediate beginner" },
-          { name: "confident beginner", value: "confident beginner" }
+          { name: "absolute novice", value: "absolute novice" },
+          { name: "beginner with some experience", value: "beginner with some experience" },
+          { name: "confident beginner", value: "confident beginner" },
+          { name: "early intermediate level", value: "early intermediate level" },
+          { name: "intermediate level", value: "intermediate level" },
+          { name: "confident intermediate level", value: "confident intermediate level" }
         )
     ),
 
@@ -55,7 +58,7 @@ module.exports = {
 
     await interaction.deferReply();
 
-    const userPrompt = `Generate one javascript code-reading challenge that focuses on ${category} for an ${level}. Don't show the answer or explain the code. Return the code only`;
+    const userPrompt = `Generate one code-reading challenge in javascript which focuses on ${category} for a ${level}. Don't show the answer or explain the code. Return the code only`;
     addUserMsg("user", userPrompt);
 
     //call async openai function with message hisotry 

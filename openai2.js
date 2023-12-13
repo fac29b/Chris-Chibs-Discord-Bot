@@ -14,8 +14,8 @@ async function main2(msgHistory) {
   try { 
       
       const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      max_tokens: 150,
+      model: "gpt-4",
+      max_tokens: 300,
       messages: msgHistory,
         
     });

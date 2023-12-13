@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("discord.js");
 // Importing the import.js module
 const oAi2 = require("../../openai2");
 
-// let msgHistory = [];
+let msgHistory = [];
 
 //store User messages in chat history
 const addUserMsg = (role, content) => {
@@ -67,7 +67,7 @@ module.exports = {
     addUserMsg("assistant", openAIresult2);
 
 
-    console.log("message history = ", msgHistory)
+    //console.log("message history = ", msgHistory)
   },
   //added export of msgHistory variable
   //msgHistory,

@@ -15,7 +15,6 @@ require("dotenv/config");
 // Importing the import.js module
 const oAi = require("./openai");
 const { msgHistory } = require("./commands/utility/intcoderead");
-const { channel } = require("node:diagnostics_channel");
 
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
 const client = new Client({
@@ -124,8 +123,10 @@ client.on(Events.MessageCreate, async (msg) => {
       if (msg.content.toLowerCase() !== 'answer') {
         msg.reply('Type: `/coderead` to run this bot.\n' + 'Reply `answer` to the code problem to get an answer.');
     } else {
+      msg.reply("working on it...");
       const messageContent = await msg.guild.channels.cache.get(msg.reference.channelId).messages.fetch(msg.reference.messageId);
       const openAiAnswer = await oAi.main(messageContent.content);
+      // add "spoiler" formatting to answer
       msg.reply("||"+openAiAnswer+"||");
     }
   }
