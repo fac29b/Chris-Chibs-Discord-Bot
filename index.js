@@ -16,6 +16,11 @@ require("dotenv/config");
 const oAi = require("./openai");
 const { msgHistory } = require("./commands/utility/intcoderead");
 
+//throwaway for testing
+module.exports.add2 = (a,b) => a+b;
+module.exports.add3 = (a,b) => a+b;
+
+
 // Initialize (create) a new Discord client with specific gateway intents (intents are ways to declare what events I want the bot to receive from Discord)
 const client = new Client({
   intents: [
